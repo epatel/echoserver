@@ -48,3 +48,7 @@ Desktop
 Spotify on iPhone
 
 [![Spotify on iPhone](https://img.youtube.com/vi/dS920OrCZGc/0.jpg)](https://www.youtube.com/watch?v=dS920OrCZGc)
+
+Ring ZERO app configuration, Open URI for the "right" gesture
+
+![Open URI](http://echo.memention.net/open-uri.jpg)
