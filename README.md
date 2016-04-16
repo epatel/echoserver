@@ -9,3 +9,12 @@ One way to test/listen in on a channel is to connect to the server with `nc`
 ```
 ( echo $ECHO_KEY ; echo $ECHO_CHANNEL; cat ) | nc $ECHO_HOST $ECHO_PORT
 ```
+
+# ring0-setup
+
+`ring0-setup` is a command line tool that can be used in the OSX Terminal to listen in on a channel and control Spotify, generate some key events i.e. controlling a presentation app like Deckset, or just say the gesture made.
+
+```
+source ring0-setup
+ring echo
+```
