@@ -1,0 +1,136 @@
+# Echo server integration demo, for ring0
+# ---------------------------------------
+#
+# Copyright (c) 2016 Edward Patel, http://memention.com/
+#
+# MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining
+# a copy of this software and associated documentation files (the
+# "Software"), to deal in the Software without restriction, including
+# without limitation the rights to use, copy, modify, merge, publish,
+# distribute, sublicense, and/or sell copies of the Software, and to
+# permit persons to whom the Software is furnished to do so, subject to
+# the following conditions:
+#
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+# MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+# LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+# OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+# WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+ECHO_HOST=echo.memention.net
+ECHO_PORT=2000
+ECHO_KEY=498412F0-01BC-4A60-83C4-FD3972EA92E9
+ECHO_CHANNEL=RX-03E4
+
+function _spotify () {
+  case $1 in
+    uptap*)
+      osascript -e 'display notification "Volume up" with title "My Precious"'
+      osascript <<EOF
+tell application "Spotify" 
+set theVolume to sound volume
+if theVolume < 91 then
+set sound volume to (theVolume + 10)
+end if
+end tell
+EOF
+      ;;
+    downtap*)
+      osascript -e 'display notification "Volume down" with title "My Precious"'
+      osascript <<EOF
+tell application "Spotify" 
+set theVolume to sound volume
+if theVolume > 10 then
+set sound volume to (theVolume - 10)
+end if
+end tell
+EOF
+      ;;
+    left*)
+      osascript -e 'display notification "Back" with title "My Precious"'
+      osascript -e 'tell application "Spotify" to previous track'
+      osascript -e 'tell application "Spotify" to previous track'
+      ;;
+    right*)
+      osascript -e 'display notification "Forward" with title "My Precious"'
+      osascript -e 'tell application "Spotify" to next track'
+      ;;
+    down*)
+      osascript -e 'display notification "Play" with title "My Precious"'
+      osascript -e 'tell application "Spotify" to play'
+      ;;
+    up*)
+      osascript -e 'display notification "Pause" with title "My Precious"'
+      osascript -e 'tell application "Spotify" to pause'
+      ;;
+    clockwise*)
+      export pgm=keys
+      say $pgm
+      ;;
+    counterclockwise*)
+      export pgm=echo
+      say $pgm
+      ;;
+    *)
+      echo $1
+      ;;
+  esac
+}
+
+function _keys () {
+  case $1 in
+    left*)
+      osascript -e 'tell application "System Events" to key code 123'
+      ;;
+    right*)
+      osascript -e 'tell application "System Events" to key code 124'
+      ;;
+    down*)
+      osascript -e 'tell application "System Events" to key code 125'
+      ;;
+    up*)
+      osascript -e 'tell application "System Events" to key code 126'
+      ;;
+    clockwise*)
+      export pgm=echo
+      say $pgm
+      ;;
+    counterclockwise*)
+      export pgm=spotify
+      say $pgm
+      ;;
+    *)
+      echo $1
+      ;;
+  esac
+}
+
+function _echo () {
+  case $1 in
+    clockwise*)
+      export pgm=spotify
+      say $pgm
+      ;;
+    counterclockwise*)
+      export pgm=keys
+      say $pgm
+      ;;
+    *)
+      echo $1
+      ;;
+  esac
+}
+
+function ring () {
+  pgm=$1
+  ( echo $ECHO_KEY ; echo $ECHO_CHANNEL; cat ) | nc $ECHO_HOST $ECHO_PORT | while read -r cmd ; say $cmd ; do _$pgm $cmd ; done
+}
+
+complete -W "echo keys spotify" ring
