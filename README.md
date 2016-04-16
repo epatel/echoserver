@@ -8,6 +8,8 @@ I created this echo server for a couple of personal projects. I run it on a priv
 
 Look inside to change the key and port.
 
+Please note that all the demos use the same "channel" ID `RX-03E4` which should be changed if you wish to run on my private server while testing. Please setup your own echo server for your own purpose, I will not guarantee that I will be running my echo server for any period of time.
+
 When connecting to the echo server it initialy takes 2 lines, the first has to be a specific UUID key and the second a string that will be used as a "channel" name. All clients connected to the same "channel" will receive the same data and they can send data to all connected clients (but no feedback of own data).
 
 One way to test/listen in on a channel is to connect to the server with `nc`
