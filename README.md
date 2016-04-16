@@ -1,6 +1,6 @@
 # Echo Server
 
-I created this echo server for a couple of personal projects. I run it on a private server and use it to connect devices and create a simple push feature between the connected devices. Recently I bought a Ring ZERO (a bluetooth enabled ring that can recognise gestures) and wanted to make a Spotify client that could play in the background. This could not be made with the ordinary ring0 SDK so I came up with the idea to use this echo server. So to share this solution I now share the echo server here.
+I created this echo server for a couple of personal projects. I run it on a private server and use it to connect devices and create a simple push feature between the connected devices. Recently I bought a Ring ZERO (a bluetooth enabled ring that can recognise gestures) and wanted to make a Spotify client that could play in the background and recieve ring gestures. This could not be made with the ordinary ring0 SDK so I came up with the idea to use this echo server. So to share this solution I now share the echo server here. I also added the echo server connection to the `Simple Track Playback` sample code here https://github.com/epatel/ios-sdk
 
 ```
 ./echoserver.py
