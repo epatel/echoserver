@@ -24,3 +24,11 @@ One way to test/listen in on a channel is to connect to the server with `nc`
 source ring0-setup
 ring echo
 ```
+
+# ring.cgi
+
+`ring.cgi` is a tiny cgi script available on the same server as the echo server. With this the Ring ZERO iOS app can post events into a channel and thus control a Spotify client, using the Open URI feature in the Ring ZERO app.
+
+```
+curl http://echo.memention.net/ring.cgi/RX-03E4/right
+```
