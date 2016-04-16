@@ -42,7 +42,9 @@ curl http://echo.memention.net/ring.cgi/RX-03E4/right
 # Youtube demos
 
 Desktop
+
 [![Desktop](https://img.youtube.com/vi/fD2CYi0AcE0/0.jpg)](https://www.youtube.com/watch?v=fD2CYi0AcE0)
 
 Spotify on iPhone
+
 [![Spotify on iPhone](https://img.youtube.com/vi/dS920OrCZGc/0.jpg)](https://www.youtube.com/watch?v=dS920OrCZGc)
