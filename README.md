@@ -32,3 +32,7 @@ ring echo
 ```
 curl http://echo.memention.net/ring.cgi/RX-03E4/right
 ```
+
+# Command line demo
+
+[![asciicast](https://asciinema.org/a/6k7kmitlapxg1p9rqqeixll34.png)](https://asciinema.org/a/6k7kmitlapxg1p9rqqeixll34)

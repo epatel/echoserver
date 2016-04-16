@@ -9,8 +9,6 @@ ECHO_COMMAND=`basename $PATH_INFO`
 echo "Content-type: text/html; charset=UTF-8"
 echo
 
-echo "<pre>"
-
 ( echo $ECHO_KEY ; basename $ECHO_CHANNEL ; echo $ECHO_COMMAND ) | nc localhost $ECHO_PORT
 
-echo "</pre>"
+echo "$ECHO_COMMAND Posted"
