@@ -36,6 +36,7 @@ client_lock = threading.Lock()
 clients = {}
 
 entry_key = "498412F0-01BC-4A60-83C4-FD3972EA92E9"
+socket_port = 2000
 
 class ThreadedTCPRequestHandler(SocketServer.StreamRequestHandler):
 
@@ -107,7 +108,7 @@ class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
 
 if __name__ == "__main__":
 
-    addr = ("0.0.0.0", 2000)
+    addr = ("0.0.0.0", socket_port)
 
     SocketServer.TCPServer.allow_reuse_address = True
     server = ThreadedTCPServer(addr, ThreadedTCPRequestHandler)
