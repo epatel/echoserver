@@ -51,4 +51,4 @@ Spotify on iPhone
 
 Ring ZERO app configuration, Open URI for the "right" gesture
 
-![Open URI](http://echo.memention.net/open-uri.jpg?01)
+![Open URI](http://echo.memention.net/open-uri.jpg)
