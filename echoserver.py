@@ -46,11 +46,10 @@ class ThreadedTCPRequestHandler(SocketServer.StreamRequestHandler):
         global clients
         global client_lock
 
-        client_lock.acquire()
-        for client in clients[self.channelKey]:
-            if client != self:
-                client.wfile.write(output)
-        client_lock.release()
+        with client_lock:
+            for client in clients[self.channelKey]:
+                if client != self:
+                    client.wfile.write(output)
 
     def handle(self):
         global clients
@@ -66,39 +65,37 @@ class ThreadedTCPRequestHandler(SocketServer.StreamRequestHandler):
                 self.channelKey = self.rfile.readline().strip()
                 keyset = 1
 
-                client_lock.acquire()
-                if clients.has_key(self.channelKey):
-                    channel = clients[self.channelKey]
-                else:
-                    channel = []
-                    clients[self.channelKey] = channel                
-                channel.append(self)
-                client_lock.release()
+                with client_lock:
+                    if clients.has_key(self.channelKey):
+                        channel = clients[self.channelKey]
+                    else:
+                        channel = []
+                        clients[self.channelKey] = channel
+                    channel.append(self)
                     
                 while True:
                     data = self.rfile.readline()
                     if data == "" or data[0] == '\004':
                         break
                     if data == "ping\n":
-                        client_lock.acquire()
-                        self.wfile.write("pong\n")
-                        client_lock.release()
+                        with client_lock:
+                            self.wfile.write("pong\n")
                     else:
                         self.write(data)
 
-                client_lock.acquire()
-                clients[self.channelKey].remove(self)
-                client_lock.release()
-            self.request.close()
+                with client_lock:
+                    clients[self.channelKey].remove(self)
             print "close normal"
                 
         except:
             if keyset == 1:
-                client_lock.acquire()
-                clients[self.channelKey].remove(self)
-                client_lock.release()
-            self.request.close()
+                with client_lock:
+                    clients[self.channelKey].remove(self)
             print "close exception"
+
+        finally:
+            self.request.close()
+
             
 class ThreadedTCPServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
     daemon_threads = True
@@ -121,14 +118,17 @@ if __name__ == "__main__":
     try:
         while True:
             time.sleep(1)
+
     except:
+        print "Exception"
+
+    finally:
         print "Exiting"
-        client_lock.acquire()
-        for channel in clients.keys():
-            for client in clients[channel]:
-                print "client ", client, "chan ", channel
-                client.request.close()
-        client_lock.release()
+        with client_lock:
+            for channel in clients.keys():
+                for client in clients[channel]:
+                    print "client ", client, "chan ", channel
+                    client.request.close()
 
     server.shutdown()
     server.server_close()
